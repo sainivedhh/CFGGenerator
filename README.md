@@ -43,7 +43,7 @@
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/sainivedhh/CFGGenerator.git](https://github.com/sainivedhh/CFGGenerator)
+    git clone https://github.com/sainivedhh/CFGGenerator.git
     ```
 2.  Open `index.html` in any modern web browser.
 3.  Navigate to **Showcase** to start coding!
