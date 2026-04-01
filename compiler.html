@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio — Amrita Compiler Studio</title>
+  <meta name="description"
+    content="Interactive compiler studio: lexer, parser, semantic analyser, IR, codegen and CFG visualizer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@700;800&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@500&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "var(--tw-primary)",
+            "on-primary": "var(--tw-on-primary)",
+            "background": "var(--tw-background)",
+            "on-surface-variant": "var(--tw-text2)",
+            "tertiary": "var(--tw-tertiary)",
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- ── TOP NAV (matches index.html) ── -->
+  <nav class="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl" style="background: var(--bg); border-bottom: 1px solid var(--border);">
+    <div class="flex justify-between items-center max-w-full px-8" style="height:64px;">
+      <div class="flex items-center gap-4">
+        <img alt="Logo" class="h-9 w-auto object-contain" src="logo.webp" />
+        <span style="font-size:18px; font-weight:700; color:var(--text); letter-spacing:-0.5px; font-family:'Plus Jakarta Sans', sans-serif;">Compiler Studio</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="index.html" style="color:var(--text2); font-size:13px; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Home</a>
+        <a href="compiler.html" style="color:var(--text); font-size:13px; text-decoration:none; font-weight:500;">Studio</a>
+        <a href="doc.html" style="color:var(--text2); font-size:13px; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Docs</a>
+        <button onclick="toggleTheme()" id="theme-btn"
+          style="border-radius:50%; width:32px; height:32px; padding:0; display:flex; align-items:center; justify-content:center; background:transparent; border:1px solid var(--border); cursor:pointer; color:var(--text2);">
+          <span class="material-symbols-outlined theme-icon" style="font-size:18px;">light_mode</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="app" style="height: calc(100vh - 64px);">
+    <!-- ── LEFT PANE ── -->
+    <div id="left-pane">
+      <div id="floating-bg"></div>
+
+      <div class="header-bar">
+        <div class="brand">
+          <a href="index.html"
+            style="background:transparent; border:none; cursor:pointer; display:flex; align-items:center; margin-right:8px; color:var(--text2); text-decoration:none;"
+            onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'"
+            title="Back to Home">
+            <span class="material-symbols-outlined" style="font-size:20px;">arrow_back</span>
+          </a>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          <span style="color:var(--text);margin-left:4px">Amrita Studio</span>
+        </div>
+        <div style="flex:1"></div>
+        <div class="status-pill">
+          <div id="status-dot"></div>
+          <span id="status-txt">Ready</span>
+        </div>
+      </div>
+
+      <div id="workspace">
+        <b class="ws-title">Compile the code.</b>
+        <p class="ws-sub">A next-generation compiler suite for visualising lexical flows, syntax hierarchies, and
+          control-flow graphs in real-time.</p>
+
+        <div id="editor-wrap">
+          <div id="line-nums"></div>
+          <textarea id="code-input" spellcheck="false">#include <stdio.h>
+
+int main() {
+    printf("Hello, World!");
+    return 0;
+}</textarea>
+        </div>
+
+        <button class="btn-primary" onclick="compile()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linejoin="round">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Compile
+        </button>
+      </div>
+    </div>
+
+    <!-- ── RIGHT PANE ── -->
+    <div id="right-pane">
+      <div id="showcase-stage">
+        <div id="showcase-nav">
+          <div class="out-tab active" onclick="selectPhase('lexical')" id="ot-lexical">Lexical</div>
+          <div class="out-tab" onclick="selectPhase('syntax')" id="ot-syntax">Syntax</div>
+          <div class="out-tab" onclick="selectPhase('semantic')" id="ot-semantic">Semantic</div>
+          <div class="out-tab" onclick="selectPhase('ir')" id="ot-ir">IR/TAC</div>
+          <div class="out-tab" onclick="selectPhase('codegen')" id="ot-codegen">Codegen</div>
+          <div class="out-tab" onclick="selectPhase('cfg')" id="ot-cfg">CFG Flow</div>
+        </div>
+
+        <div id="showcase-content">
+          <div id="p-lexical" class="phase-panel active animate-in">
+            <div style="color:var(--text3);text-align:center;padding:120px 20px;">
+              <h2 style="font-size:20px;color:var(--text);margin-bottom:12px;font-weight:500">System Awaiting Build</h2>
+              <p>Click "Compile" to generate visualizations.</p>
+            </div>
+          </div>
+          <div id="p-syntax" class="phase-panel"></div>
+          <div id="p-semantic" class="phase-panel"></div>
+          <div id="p-ir" class="phase-panel"></div>
+          <div id="p-codegen" class="phase-panel"></div>
+          <div id="p-cfg" class="phase-panel"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background:#0F0306; width:100%; text-align:left;">
+    <div style="max-width:1280px; margin:0 auto; padding:48px 32px; display:grid; grid-template-columns:repeat(2,1fr); gap:32px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+          <img alt="Logo" style="height:24px; opacity:0.8;" src="logo.webp" />
+          <span style="font-size:16px; font-weight:700; color:#fff;">Compiler Studio</span>
+        </div>
+        <p style="color:var(--text2); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; line-height:1.8;">Defining the new standard for developer toolkits.</p>
+      </div>
+      <div>
+        <p style="color:#fff; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px;">Platform</p>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <a href="index.html" style="color:var(--text2); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text2)'">Home</a>
+          <a href="compiler.html" style="color:var(--text2); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text2)'">Showcase</a>
+          <a href="doc.html" style="color:var(--text2); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text2)'">Docs</a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1280px; margin:0 auto; padding:0 32px 32px;">
+      <div style="padding-top:24px; border-top:1px solid rgba(255,255,255,0.05); color:var(--text2); font-size:11px; text-transform:uppercase; letter-spacing:0.1em; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+        <span>© 2026 Sai's Studio. All rights reserved.</span>
+        <div style="display:flex; gap:16px;">
+          <span>Deploy Version 1.0.4-Alpha</span>
+          <span style="color:var(--color-str); font-family:'JetBrains Mono',monospace;">System Optimal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="compiler.js"></script>
+  <script src="ui.js"></script>
+  <script>
+    // Theme init
+    (function () {
+      const saved = localStorage.getItem('compiler_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', saved);
+      const icon = document.querySelector('.theme-icon');
+      if (icon) icon.textContent = saved === 'dark' ? 'light_mode' : 'dark_mode';
+    })();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('compiler_theme', next);
+      const icon = document.querySelector('.theme-icon');
+      if (icon) icon.textContent = next === 'dark' ? 'light_mode' : 'dark_mode';
+
+      // Re-render SVG-based panels if data is already compiled
+      const pSyntax = document.getElementById('p-syntax');
+      if (pSyntax && window.compiledData && window.compiledData.ast) {
+        if (typeof renderSyntax === 'function') renderSyntax(window.compiledData.ast);
+      }
+      const pCFG = document.getElementById('p-cfg');
+      if (pCFG && window.compiledData && window.compiledData.blocks) {
+        if (typeof renderCFG === 'function') renderCFG(window.compiledData.blocks, window.compiledData.edges, window.compiledData.tac);
+      }
+    }
+
+    // Initialize line numbers once UI is ready
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.updateLines) window.updateLines();
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amrita Compiler Studio — Beta</title>
+  <meta name="description"
+    content="Transform abstract syntax trees into immersive logic flows. The world's most sophisticated compiler IDE." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Plus+Jakarta+Sans:wght@700;800&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@500&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "var(--tw-primary)",
+            "primary-container": "var(--tw-primary-container)",
+            "on-primary": "var(--tw-on-primary)",
+            "secondary": "var(--tw-secondary)",
+            "background": "var(--tw-background)",
+            "surface": "var(--tw-surface)",
+            "surface-container": "var(--tw-surface-container)",
+            "outline": "var(--tw-outline)",
+            "on-background": "var(--tw-text)",
+            "on-surface-variant": "var(--tw-text2)",
+            "tertiary": "var(--tw-tertiary)",
+            "primary-fixed": "var(--tw-primary)",
+            "outline-variant": "var(--tw-border)"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Sora"],
+            "technical": ["JetBrains Mono"],
+            "label": ["Space Grotesk"]
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'shimmer': 'shimmer 2.5s linear infinite',
+            'fade-slide-up': 'fadeSlideUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            fadeSlideUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body
+  class="bg-background text-on-background font-body selection:bg-primary/40 text-left overflow-y-auto overflow-x-hidden">
+
+  <!-- TopNavBar -->
+  <nav class="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl">
+    <div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+      <div class="flex items-center gap-4">
+        <img alt="Logo" class="h-10 w-auto object-contain" src="logo.webp" />
+        <span class="text-2xl font-bold tracking-tighter text-white font-headline">Compiler Studio</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a class="text-on-surface-variant hover:text-white font-sans text-sm tracking-tight transition-all duration-300"
+          href="compiler.html">Showcase</a>
+        <a class="text-on-surface-variant hover:text-white font-sans text-sm tracking-tight transition-all duration-300"
+          href="doc.html">Docs</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="bg-obsidian-gradient">
+    <!-- Hero Section -->
+    <section
+      class="relative min-h-[921px] flex flex-col items-center justify-center text-center px-4 overflow-hidden animate-fade-slide-up">
+      <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full"></div>
+      <div class="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-tertiary/15 blur-[100px] rounded-full"></div>
+      <div class="z-10 max-w-4xl">
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-primary/10 border border-primary/20 text-xs font-technical uppercase tracking-widest text-primary">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+          </span>
+          Now in Private Alpha
+        </div>
+        <h1 class="font-headline text-5xl md:text-8xl font-extrabold tracking-tighter text-white leading-tight mb-8">
+          The Future of <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-tertiary to-primary">Compilation</span>,<br>Visualized.
+        </h1>
+        <p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+          Transform abstract syntax trees into immersive logic flows. Architect the next generation of
+          high-performance languages with the world's most sophisticated compiler IDE.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="compiler.html"
+            class="px-10 py-4 btn-shimmer animate-shimmer text-white font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(155,0,51,0.4)]">
+            Get Started
+          </a>
+          <a href="doc.html"
+            class="px-10 py-4 glass-card text-white font-bold rounded-xl transition-all duration-300 hover:bg-white/5 border border-primary/30">
+            View Documentation
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Bento Grid -->
+    <section class="max-w-7xl mx-auto px-8 py-24 reveal-on-scroll" id="features">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1: Visual AST -->
+        <div class="group relative p-8 glass-card rounded-2xl animate-float transition-all duration-500 overflow-hidden"
+          style="animation-delay: 0s;">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          </div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-primary/20 text-primary mb-6">
+              <span class="material-symbols-outlined">account_tree</span>
+            </div>
+            <h3 class="text-2xl font-headline font-bold text-white mb-4">Visual AST</h3>
+            <p class="text-on-surface-variant font-light mb-6">Manipulate abstract syntax trees directly with a fluid,
+              node-based interface that reflects code changes in real-time.</p>
+            <div class="font-technical text-[10px] text-tertiary bg-primary/10 p-3 rounded border border-primary/20">
+              STRUCT Program { nodes: Node[] }
+            </div>
+          </div>
+        </div>
+        <!-- Card 2: CFG Flow -->
+        <div class="group relative p-8 glass-card rounded-2xl animate-float transition-all duration-500 overflow-hidden"
+          style="animation-delay: 1.5s;">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-tertiary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          </div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-tertiary/10 text-tertiary mb-6">
+              <span class="material-symbols-outlined">alt_route</span>
+            </div>
+            <h3 class="text-2xl font-headline font-bold text-white mb-4">CFG Flow</h3>
+            <p class="text-on-surface-variant font-light mb-6">Explore every branch of your logic with high-fidelity
+              control flow graphs. Track data mutations across the entire stack.</p>
+            <div class="font-technical text-[10px] text-tertiary bg-tertiary/5 p-3 rounded border border-tertiary/20">
+              JMP .L1 IF %rax == 0
+            </div>
+          </div>
+        </div>
+        <!-- Card 3: Assembly Generation -->
+        <div class="group relative p-8 glass-card rounded-2xl animate-float transition-all duration-500 overflow-hidden"
+          style="animation-delay: 3s;">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          </div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-primary/20 text-primary mb-6">
+              <span class="material-symbols-outlined">memory</span>
+            </div>
+            <h3 class="text-2xl font-headline font-bold text-white mb-4">Assembly Gen</h3>
+            <p class="text-on-surface-variant font-light mb-6">Real-time compilation to x86, ARM64, and WASM. Watch
+              your code turn into machine instructions as you type.</p>
+            <div class="font-technical text-[10px] text-primary bg-primary/5 p-3 rounded border border-primary/20">
+              MOVQ %rdi, %rax; RET
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visualizer Preview -->
+    <section class="max-w-7xl mx-auto px-8 py-24 reveal-on-scroll">
+      <div class="text-center mb-16">
+        <h2 class="font-headline text-4xl md:text-5xl font-bold text-white mb-6">Engineered for Precision</h2>
+        <p class="text-on-surface-variant text-lg max-w-2xl mx-auto">A workspace that feels like an instrument. No
+          more static text logs—see your logic breathe through interactive data visualizations.</p>
+      </div>
+      <div class="relative group rounded-3xl overflow-hidden glass-card border border-primary/20 shadow-2xl">
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"></div>
+        <img alt="Sleek IDE Interface"
+          class="w-full aspect-video object-cover opacity-40 group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0"
+          src="compiler_bg.jpg" />
+        <div class="absolute inset-0 flex items-center justify-center z-20">
+          <a href="compiler.html" class="group flex flex-col items-center gap-4 transition-transform hover:scale-110">
+            <div
+              class="w-20 h-20 flex items-center justify-center rounded-full bg-primary/30 backdrop-blur-md border border-primary/50 text-white shadow-[0_0_30px_rgba(155,0,51,0.4)]">
+              <span class="material-symbols-outlined text-4xl"
+                style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+            </div>
+            <span class="font-label text-sm uppercase tracking-widest text-white font-bold">Watch it Flow</span>
+          </a>
+        </div>
+        <div class="absolute bottom-8 left-8 right-8 z-20 flex justify-between items-end">
+          <div class="flex gap-4">
+            <div class="px-4 py-2 glass-card rounded-lg border border-primary/20 flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></div>
+              <span class="font-technical text-xs text-white">SYSTEM_IDLE: 0.2ms</span>
+            </div>
+            <div class="px-4 py-2 glass-card rounded-lg border border-primary/20 flex items-center gap-3">
+              <span class="material-symbols-outlined text-primary text-sm">bolt</span>
+              <span class="font-technical text-xs text-white">LATENCY: LOW</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#0F0306] w-full text-left">
+    <div class="max-w-7xl mx-auto px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2 mb-4">
+          <img alt="Logo" class="h-6 w-auto opacity-80" src="logo.webp" />
+          <div class="text-lg font-bold text-white">Compiler Studio</div>
+        </div>
+        <p class="text-on-surface-variant font-sans text-xs uppercase tracking-widest leading-relaxed mb-6">Defining
+          the new standard for developer toolkits.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-4 font-label text-xs uppercase tracking-widest">Platform</h4>
+        <ul class="space-y-2">
+          <li><a
+              class="text-on-surface-variant hover:text-primary font-sans text-xs uppercase tracking-widest transition-colors"
+              href="compiler.html">Showcase</a></li>
+          <li><a
+              class="text-on-surface-variant hover:text-primary font-sans text-xs uppercase tracking-widest transition-colors"
+              href="doc.html">Docs</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-8 pb-12">
+      <div
+        class="pt-8 text-on-surface-variant font-sans text-xs uppercase tracking-widest flex flex-col md:flex-row justify-between gap-4">
+        <span>© 2026 Sai's Studio. All rights reserved.</span>
+        <div class="flex gap-4">
+          <span>Deploy Version 1.0.4-Alpha</span>
+          <span class="text-tertiary font-technical font-normal">System Optimal</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Home page always stays dark — ignore compiler theme preference
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.documentElement.classList.add('dark');
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+  </script>
+</body>
+
+</html>
